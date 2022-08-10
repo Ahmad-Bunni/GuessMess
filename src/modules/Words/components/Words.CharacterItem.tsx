@@ -17,9 +17,8 @@ export default function CharacterItem({
 }) {
   const [value, setValue] = useState('');
   const [status, setStatus] = useState(CharacterStatus.Default);
-  const { numberOfFields, characters } = useSelector(
-    (state: IState) => state.word
-  );
+  const { numberOfFields, characters, characterValidationTriggerFlag } =
+    useSelector((state: IState) => state.word);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
@@ -28,7 +27,7 @@ export default function CharacterItem({
 
   React.useEffect(() => {
     setStatus(characters[index]?.status);
-  }, [characters]);
+  }, [characterValidationTriggerFlag]);
 
   React.useEffect(() => {
     dispatch(

@@ -5,6 +5,7 @@ export interface WordState {
   numberOfFields: number;
   wordComplete: boolean;
   word: string;
+  characterValidationTriggerFlag: boolean;
 }
 
 export const initialState: WordState = {
@@ -12,4 +13,5 @@ export const initialState: WordState = {
   wordComplete: false,
   numberOfFields: 0,
   word: 'RUN',
+  characterValidationTriggerFlag: false, // the value here does not matter as it is used a switch to trigger an event with !value
 };

@@ -24,6 +24,10 @@ export const wordSlice = createSlice({
     setFieldsNumber: (state) => {
       state.numberOfFields = state.word.length;
     },
+    triggerCharactersValidation: (state) => {
+      state.characterValidationTriggerFlag =
+        !state.characterValidationTriggerFlag;
+    },
   },
 });
 

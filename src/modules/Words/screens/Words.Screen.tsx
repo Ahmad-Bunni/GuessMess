@@ -11,12 +11,13 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { IState } from '../../../state/store';
 import CharactersBlock from '../components/Words.CharactersBlock';
-import { setFieldsNumber } from '../state/Words.actions';
+import {
+  setFieldsNumber,
+  triggerCharactersValidation,
+} from '../state/Words.actions';
 
 export default function WordsMain() {
-  const { characters, wordComplete, word } = useSelector(
-    (state: IState) => state.word
-  );
+  const { wordComplete, word } = useSelector((state: IState) => state.word);
 
   const disptach = useDispatch();
 
@@ -34,7 +35,7 @@ export default function WordsMain() {
           <Button
             isDisabled={!wordComplete}
             colorScheme="lightBlue"
-            onPress={() => console.log(characters)}
+            onPress={() => disptach(triggerCharactersValidation())}
           >
             Submit !
           </Button>
