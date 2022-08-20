@@ -1,11 +1,23 @@
 import { createListenerMiddleware } from '@reduxjs/toolkit';
-import { addCharacterDetails, validateWordCompletion } from './Words.actions';
+import {
+  restart,
+  setCharacterDetails,
+  setFieldsNumber,
+  validateWordCompletion,
+} from './Words.actions';
 
 export const listenerMiddleware = createListenerMiddleware();
 
 listenerMiddleware.startListening({
-  actionCreator: addCharacterDetails,
-  effect: (event, listenerApi) => {
+  actionCreator: setCharacterDetails,
+  effect: (_, listenerApi) => {
     listenerApi.dispatch(validateWordCompletion());
+  },
+});
+
+listenerMiddleware.startListening({
+  actionCreator: setFieldsNumber,
+  effect: (_, listenerApi) => {
+    listenerApi.dispatch(restart());
   },
 });

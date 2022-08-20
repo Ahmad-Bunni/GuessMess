@@ -17,3 +17,11 @@ export default function calculateCharacterStatus(
   else if (wordArray.includes(givenCharacter)) return CharacterStatus.Close;
   else return CharacterStatus.Wrong;
 }
+
+export function getRandomWord(length: number) {
+  return Math.random()
+    .toString(36)
+    .replace(/[^a-z]+/g, '')
+    .toUpperCase()
+    .substring(0, length);
+}

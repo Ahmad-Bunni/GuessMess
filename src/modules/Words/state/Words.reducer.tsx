@@ -1,32 +1,46 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   ICharacterInput,
-  ICharacterValue
+  ICharacterValue,
 } from '../models/Words.characterInput';
-import calculateCharacterStatus from './helpers/Words.character.helpers';
-import { initialState } from './Words.state';
+import calculateCharacterStatus, {
+  getRandomWord,
+} from './helpers/Words.character.helpers';
+import { initialState, WordState } from './Words.state';
 
 export const wordSlice = createSlice({
   name: 'word',
   initialState,
   reducers: {
-    addCharacterDetails: (state, action: PayloadAction<ICharacterInput>) => {
+    setCharacterDetails: (
+      state: WordState,
+      action: PayloadAction<ICharacterInput>
+    ) => {
       state.characters[action.payload.index] = {
         value: action.payload.value,
         status: calculateCharacterStatus(state, action.payload),
       } as ICharacterValue;
     },
-    validateWordCompletion: (state) => {
+    setFieldsNumber: (state: WordState, actions: PayloadAction<number>) => {
+      state.numberOfFields = actions.payload;
+    },
+    validateWordCompletion: (state: WordState) => {
       state.wordComplete = Object.values(state.characters).every(
         (character) => character.value
       );
     },
-    setFieldsNumber: (state, actions: PayloadAction<number>) => {
-      state.numberOfFields = actions.payload;
+    validateCharacters: (state: WordState) => {
+      state.characterValidationTrigger = !state.characterValidationTrigger;
     },
-    triggerCharactersValidation: (state) => {
-      state.characterValidationTriggerFlag =
-        !state.characterValidationTriggerFlag;
+    restart: (state: WordState) => {
+      return {
+        ...state,
+        word: getRandomWord(state.numberOfFields),
+        wordComplete: false,
+        characters: initialState.characters,
+        charactersValueResetTrigger: !state.charactersValueResetTrigger,
+        characterValidationTrigger: !state.characterValidationTrigger,
+      };
     },
   },
 });

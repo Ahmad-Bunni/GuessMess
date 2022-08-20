@@ -33,12 +33,16 @@ export default function GameMenu() {
       size="md"
     >
       <Modal.Content>
-        <Modal.Header>Game Mode</Modal.Header>
+        <Modal.Header alignItems="center">Game Mode</Modal.Header>
         <Modal.Body>
           <VStack space={6}>
             {[...Array(3)].map((_, index) => {
               return (
-                <Button onPress={() => startNewGame(index + 4)} size="sm">
+                <Button
+                  key={index}
+                  onPress={() => startNewGame(index + 4)}
+                  size="sm"
+                >
                   <Text style={styles.buttonText}>Characters {index + 4}</Text>
                 </Button>
               );

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IState } from '../../../store/store';
 import { CharacterStatus } from '../models/Words.character.status';
 import { InputEvent } from '../models/Worlds.InputEvent';
-import { addCharacterDetails } from '../state/Words.actions';
+import { setCharacterDetails } from '../state/Words.actions';
 
 export default function CharacterItem({
   handleChange,
@@ -17,21 +17,25 @@ export default function CharacterItem({
 }) {
   const [value, setValue] = useState('');
   const [status, setStatus] = useState(CharacterStatus.Default);
-  const { numberOfFields, characters, characterValidationTriggerFlag } =
-    useSelector((state: IState) => state.word);
+  const {
+    numberOfFields,
+    characters,
+    characterValidationTrigger,
+    charactersValueResetTrigger,
+  } = useSelector((state: IState) => state.word);
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     setValue('');
-  }, [numberOfFields]);
+  }, [numberOfFields, charactersValueResetTrigger]);
 
   React.useEffect(() => {
     setStatus(characters[index]?.status);
-  }, [characterValidationTriggerFlag]);
+  }, [characterValidationTrigger]);
 
   React.useEffect(() => {
     dispatch(
-      addCharacterDetails({
+      setCharacterDetails({
         index: index,
         value: value,
         status: CharacterStatus.Default,

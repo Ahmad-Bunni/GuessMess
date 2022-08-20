@@ -14,14 +14,12 @@ import { Dimensions, Keyboard, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { IState } from '../../../store/store';
 import CharactersBlock from '../components/Words.CharactersBlock';
-import { triggerCharactersValidation } from '../state/Words.actions';
+import { restart, validateCharacters } from '../state/Words.actions';
 
 export default function WordsMain() {
   const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = React.useState(false);
-
+  const [gameMenuVisible, setGameMenuVisible] = React.useState(false);
   const { wordComplete } = useSelector((state: IState) => state.word);
-
   const disptach = useDispatch();
 
   const goHome = () => {
@@ -33,21 +31,28 @@ export default function WordsMain() {
     );
   };
 
+  const newGame = () => {
+    setGameMenuVisible(false);
+    disptach(restart());
+  };
+
   return (
     <Flex style={styles.container} safeAreaTop>
       <Pressable flex={1} onPress={() => Keyboard.dismiss()}>
         <Modal
-          isOpen={modalVisible}
-          onClose={() => setModalVisible(false)}
+          isOpen={gameMenuVisible}
+          onClose={() => setGameMenuVisible(false)}
           size="md"
         >
           <Modal.Content>
-            <Modal.Header>Actions</Modal.Header>
+            <Modal.Header alignItems="center">Menu</Modal.Header>
             <Modal.Body>
               <VStack space={4}>
-                <Button size="sm">New Game</Button>
+                <Button onPress={() => newGame()} size="sm">
+                  New Game
+                </Button>
                 <Button onPress={() => goHome()} size="sm">
-                  Menu
+                  Dashboard
                 </Button>
               </VStack>
             </Modal.Body>
@@ -55,7 +60,7 @@ export default function WordsMain() {
         </Modal>
 
         <Box style={styles.header}>
-          <Pressable onPress={() => setModalVisible(true)}>
+          <Pressable onPress={() => setGameMenuVisible(true)}>
             <HamburgerIcon size="md" />
           </Pressable>
         </Box>
@@ -67,7 +72,7 @@ export default function WordsMain() {
               size="sm"
               isDisabled={!wordComplete}
               colorScheme="lightBlue"
-              onPress={() => disptach(triggerCharactersValidation())}
+              onPress={() => disptach(validateCharacters())}
             >
               Submit
             </Button>
