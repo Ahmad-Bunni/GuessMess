@@ -1,14 +1,20 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import WordsMain from '../../modules/Words/screens/Words.Screen';
+import Home from '../../modules/Home/screens/Home.Screen';
+import Words from '../../modules/Words/screens/Words.Screen';
 
 const Stack = createNativeStackNavigator();
 
-export default function RootNavigator() {
+export default function App() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Root"
-        component={WordsMain}
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Words"
+        component={Words}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   ICharacterInput,
-  ICharacterValue,
+  ICharacterValue
 } from '../models/Words.characterInput';
 import calculateCharacterStatus from './helpers/Words.character.helpers';
 import { initialState } from './Words.state';
@@ -21,8 +21,8 @@ export const wordSlice = createSlice({
         (character) => character.value
       );
     },
-    setFieldsNumber: (state) => {
-      state.numberOfFields = state.word.length;
+    setFieldsNumber: (state, actions: PayloadAction<number>) => {
+      state.numberOfFields = actions.payload;
     },
     triggerCharactersValidation: (state) => {
       state.characterValidationTriggerFlag =

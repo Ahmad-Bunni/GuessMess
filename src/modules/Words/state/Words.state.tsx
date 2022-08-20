@@ -13,5 +13,5 @@ export const initialState: WordState = {
   wordComplete: false,
   numberOfFields: 0,
   word: 'RUN',
-  characterValidationTriggerFlag: false, // the value here does not matter as it is used a switch to trigger an event with !value
+  characterValidationTriggerFlag: false, // the value here does not matter as it is only used as switch to trigger an event with !value
 };

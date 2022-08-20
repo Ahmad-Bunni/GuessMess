@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { IState } from '../../../state/store';
+import { IState } from '../../../store/store';
 import { CharacterStatus } from '../models/Words.character.status';
 import { InputEvent } from '../models/Worlds.InputEvent';
 import { addCharacterDetails } from '../state/Words.actions';

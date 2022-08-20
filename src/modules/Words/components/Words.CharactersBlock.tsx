@@ -1,7 +1,7 @@
 import React, { createRef, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
-import { IState } from '../../../state/store';
+import { IState } from '../../../store/store';
 import { InputEvent } from '../models/Worlds.InputEvent';
 import CharacterItem from './Words.CharacterItem';
 
@@ -51,9 +51,6 @@ export default function CharactersBlock() {
 
 const styles = StyleSheet.create({
   container: {
-    margin: 16,
     flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
