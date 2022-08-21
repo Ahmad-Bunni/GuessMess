@@ -4,15 +4,7 @@ import * as React from 'react';
 import App from './RootNavigator';
 
 export default function Navigation() {
-  const theme = extendTheme({
-    fontConfig: {},
-
-    fonts: {
-      heading: 'Roboto',
-      body: 'Roboto',
-      mono: 'Roboto',
-    },
-  });
+  const theme = extendTheme({});
 
   return (
     <NavigationContainer theme={DarkTheme}>

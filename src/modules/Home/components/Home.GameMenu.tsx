@@ -30,7 +30,6 @@ export default function GameMenu() {
     <Modal
       isOpen={gameMenuVisible}
       onClose={() => dispatch(setGameMenuVisibility(false))}
-      size="md"
     >
       <Modal.Content>
         <Modal.Header alignItems="center">Game Mode</Modal.Header>
@@ -39,9 +38,13 @@ export default function GameMenu() {
             {[...Array(3)].map((_, index) => {
               return (
                 <Button
+                  bg="blue.400"
+                  _text={{ color: 'white' }}
+                  _pressed={{
+                    bg: 'blue.500',
+                  }}
                   key={index}
                   onPress={() => startNewGame(index + 4)}
-                  size="sm"
                 >
                   <Text style={styles.buttonText}>Characters {index + 4}</Text>
                 </Button>

@@ -6,7 +6,7 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{ animation: 'none' }}>
       <Stack.Screen
         name="Home"
         component={Home}

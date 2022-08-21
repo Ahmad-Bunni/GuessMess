@@ -1,16 +1,18 @@
 import { CommonActions, useNavigation } from '@react-navigation/native';
 import {
-  Box,
   Button,
   Center,
   Flex,
   HamburgerIcon,
+  KeyboardAvoidingView,
   Modal,
+  MoonIcon,
   Pressable,
+  QuestionIcon,
   VStack,
 } from 'native-base';
 import React from 'react';
-import { Dimensions, Keyboard, StyleSheet } from 'react-native';
+import { Keyboard, Platform, StyleSheet, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { IState } from '../../../store/store';
 import CharactersBlock from '../components/Words.CharactersBlock';
@@ -37,60 +39,90 @@ export default function WordsMain() {
   };
 
   return (
-    <Flex style={styles.container} safeAreaTop>
-      <Pressable flex={1} onPress={() => Keyboard.dismiss()}>
-        <Modal
-          isOpen={gameMenuVisible}
-          onClose={() => setGameMenuVisible(false)}
-          size="md"
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <Flex flex={1} safeAreaTop>
+        <Pressable flex={1} onPress={() => Keyboard.dismiss()}>
+          <Modal
+            isOpen={gameMenuVisible}
+            onClose={() => setGameMenuVisible(false)}
+          >
+            <Modal.Content>
+              <Modal.Header alignItems="center">Menu</Modal.Header>
+              <Modal.Body>
+                <VStack space={4}>
+                  <Button
+                    bg="blue.400"
+                    _text={{ color: 'white' }}
+                    _pressed={{
+                      bg: 'blue.500',
+                    }}
+                    onPress={() => newGame()}
+                  >
+                    New Game
+                  </Button>
+                  <Button
+                    bg="blue.400"
+                    _text={{ color: 'white' }}
+                    _pressed={{
+                      bg: 'blue.500',
+                    }}
+                    onPress={() => goHome()}
+                  >
+                    Home
+                  </Button>
+                </VStack>
+              </Modal.Body>
+            </Modal.Content>
+          </Modal>
+
+          <Center flex={1}>
+            <VStack space={4}>
+              <CharactersBlock />
+              <Button
+                bg="blue.400"
+                _text={{ color: 'white' }}
+                _pressed={{
+                  bg: 'blue.500',
+                }}
+                isDisabled={!wordComplete}
+                onPress={() => disptach(validateCharacters())}
+              >
+                Submit
+              </Button>
+            </VStack>
+          </Center>
+        </Pressable>
+
+        <Flex
+          bg="blue.400"
+          flex={0.06}
+          direction="row"
+          alignItems="center"
+          justifyContent="space-evenly"
         >
-          <Modal.Content>
-            <Modal.Header alignItems="center">Menu</Modal.Header>
-            <Modal.Body>
-              <VStack space={4}>
-                <Button onPress={() => newGame()} size="sm">
-                  New Game
-                </Button>
-                <Button onPress={() => goHome()} size="sm">
-                  Dashboard
-                </Button>
-              </VStack>
-            </Modal.Body>
-          </Modal.Content>
-        </Modal>
+          <TouchableOpacity onPress={() => setGameMenuVisible(true)}>
+            <HamburgerIcon m={1} color="white" size="lg" />
+          </TouchableOpacity>
 
-        <Box style={styles.header}>
-          <Pressable onPress={() => setGameMenuVisible(true)}>
-            <HamburgerIcon size="md" />
-          </Pressable>
-        </Box>
+          <TouchableOpacity>
+            <MoonIcon m={1} color="white" size="lg" />
+          </TouchableOpacity>
 
-        <Center>
-          <VStack space={4}>
-            <CharactersBlock />
-            <Button
-              size="sm"
-              isDisabled={!wordComplete}
-              colorScheme="lightBlue"
-              onPress={() => disptach(validateCharacters())}
-            >
-              Submit
-            </Button>
-          </VStack>
-        </Center>
-      </Pressable>
-    </Flex>
+          <TouchableOpacity>
+            <QuestionIcon m={1} color="white" size="lg" />
+          </TouchableOpacity>
+        </Flex>
+      </Flex>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: Dimensions.get('window').height,
+    flex: 1,
     backgroundColor: 'white',
-  },
-  header: {
-    flex: 0.5,
-    margin: 4,
-    alignItems: 'flex-start',
   },
 });
