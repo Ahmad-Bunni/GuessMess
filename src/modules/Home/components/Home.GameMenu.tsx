@@ -1,13 +1,15 @@
-import { CommonActions, useNavigation } from '@react-navigation/native';
-import { Button, Modal, Text, VStack } from 'native-base';
+import { useNavigation } from '@react-navigation/native';
+import { Button, Modal, VStack } from 'native-base';
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import NavigateAsRoot from '../../../components/Navigation/NavigateAsRoot';
 import { IState } from '../../../store/store';
 import { setFieldsNumber } from '../../Words/state/Words.actions';
 import { setGameMenuVisiblity as setGameMenuVisibility } from '../state/Home.actions';
 
 export default function GameMenu() {
+  const minimumFieldCount = 4;
+
   const { isGameMenuVisible: gameMenuVisible } = useSelector(
     (state: IState) => state.home
   );
@@ -18,12 +20,11 @@ export default function GameMenu() {
     dispatch(setFieldsNumber(numberOfFields));
 
     dispatch(setGameMenuVisibility(false));
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'Words' }],
-      })
-    );
+    NavigateAsRoot({ navigation, root: 'Words' });
+  };
+
+  const isEven = (index: number) => {
+    return index % 2 === 0;
   };
 
   return (
@@ -38,15 +39,15 @@ export default function GameMenu() {
             {[...Array(3)].map((_, index) => {
               return (
                 <Button
-                  bg="blue.400"
-                  _text={{ color: 'white' }}
+                  rounded="3xl"
+                  bg={isEven(index) ? 'yellow.600' : 'lightBlue.700'}
                   _pressed={{
-                    bg: 'blue.500',
+                    bg: isEven(index) ? 'yellow.500' : 'lightBlue.600',
                   }}
-                  key={index}
                   onPress={() => startNewGame(index + 4)}
+                  key={index}
                 >
-                  <Text style={styles.buttonText}>Characters {index + 4}</Text>
+                  {`Characters ${index + minimumFieldCount}`}
                 </Button>
               );
             })}
@@ -56,9 +57,3 @@ export default function GameMenu() {
     </Modal>
   );
 }
-
-const styles = StyleSheet.create({
-  buttonText: {
-    color: 'white',
-  },
-});

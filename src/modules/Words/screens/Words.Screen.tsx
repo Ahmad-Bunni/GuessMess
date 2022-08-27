@@ -1,21 +1,21 @@
-import { CommonActions, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import {
   Button,
   Center,
   Flex,
-  HamburgerIcon,
   KeyboardAvoidingView,
-  Modal,
-  MoonIcon,
   Pressable,
-  QuestionIcon,
   VStack,
 } from 'native-base';
 import React from 'react';
-import { Keyboard, Platform, StyleSheet, TouchableOpacity } from 'react-native';
+import { Keyboard, Platform, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import NavigateAsRoot from '../../../components/Navigation/NavigateAsRoot';
 import { IState } from '../../../store/store';
+import BottomBar from '../components/Words.BottomBar';
 import CharactersBlock from '../components/Words.CharactersBlock';
+import CharactersBreakdown from '../components/Words.CharactersBreakdown';
+import MenuModal from '../components/Words.Menu';
 import { restart, validateCharacters } from '../state/Words.actions';
 
 export default function WordsMain() {
@@ -25,12 +25,7 @@ export default function WordsMain() {
   const disptach = useDispatch();
 
   const goHome = () => {
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 0,
-        routes: [{ name: 'Home' }],
-      })
-    );
+    NavigateAsRoot({ navigation, root: 'Home' });
   };
 
   const newGame = () => {
@@ -44,48 +39,17 @@ export default function WordsMain() {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <Flex flex={1} safeAreaTop>
-        <Pressable flex={1} onPress={() => Keyboard.dismiss()}>
-          <Modal
-            isOpen={gameMenuVisible}
-            onClose={() => setGameMenuVisible(false)}
-          >
-            <Modal.Content>
-              <Modal.Header alignItems="center">Menu</Modal.Header>
-              <Modal.Body>
-                <VStack space={4}>
-                  <Button
-                    bg="blue.400"
-                    _text={{ color: 'white' }}
-                    _pressed={{
-                      bg: 'blue.500',
-                    }}
-                    onPress={() => newGame()}
-                  >
-                    New Game
-                  </Button>
-                  <Button
-                    bg="blue.400"
-                    _text={{ color: 'white' }}
-                    _pressed={{
-                      bg: 'blue.500',
-                    }}
-                    onPress={() => goHome()}
-                  >
-                    Home
-                  </Button>
-                </VStack>
-              </Modal.Body>
-            </Modal.Content>
-          </Modal>
+        <Pressable flex={0.95} onPress={() => Keyboard.dismiss()}>
+          <CharactersBreakdown flex={0.3} />
 
-          <Center flex={1}>
+          <Center flex={0.6}>
             <VStack space={4}>
               <CharactersBlock />
+
               <Button
-                bg="blue.400"
-                _text={{ color: 'white' }}
+                bg="lightBlue.600"
                 _pressed={{
-                  bg: 'blue.500',
+                  bg: 'lightBlue.500',
                 }}
                 isDisabled={!wordComplete}
                 onPress={() => disptach(validateCharacters())}
@@ -96,26 +60,19 @@ export default function WordsMain() {
           </Center>
         </Pressable>
 
-        <Flex
-          bg="blue.400"
+        <BottomBar
           flex={0.06}
-          direction="row"
-          alignItems="center"
-          justifyContent="space-evenly"
-        >
-          <TouchableOpacity onPress={() => setGameMenuVisible(true)}>
-            <HamburgerIcon m={1} color="white" size="lg" />
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <MoonIcon m={1} color="white" size="lg" />
-          </TouchableOpacity>
-
-          <TouchableOpacity>
-            <QuestionIcon m={1} color="white" size="lg" />
-          </TouchableOpacity>
-        </Flex>
+          newGame={newGame}
+          setGameMenuVisible={setGameMenuVisible}
+        />
       </Flex>
+
+      <MenuModal
+        startNewGame={newGame}
+        goHome={goHome}
+        setGameMenuVisible={setGameMenuVisible}
+        gameMenuVisible={gameMenuVisible}
+      />
     </KeyboardAvoidingView>
   );
 }

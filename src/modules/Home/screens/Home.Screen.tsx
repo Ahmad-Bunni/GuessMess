@@ -21,10 +21,10 @@ export default function Home() {
 
       <VStack flex={0.6} space={2} m={2}>
         <Button
-          bg="blue.400"
+          bg="yellow.600"
           _text={{ color: 'white' }}
           _pressed={{
-            bg: 'blue.500',
+            bg: 'yellow.500',
           }}
           rounded="3xl"
           onPress={() => dispatch(setGameMenuVisiblity(true))}
@@ -33,21 +33,10 @@ export default function Home() {
         </Button>
 
         <Button
-          bg="yellow.500"
-          _text={{ color: 'white' }}
+          bg="white"
+          _text={{ color: 'lightBlue.700' }}
           _pressed={{
-            bg: 'yellow.600',
-          }}
-          rounded="3xl"
-        >
-          Online
-        </Button>
-
-        <Button
-          bg="blue.400"
-          _text={{ color: 'white' }}
-          _pressed={{
-            bg: 'blue.500',
+            bg: 'blueGray.200',
           }}
           rounded="3xl"
         >
