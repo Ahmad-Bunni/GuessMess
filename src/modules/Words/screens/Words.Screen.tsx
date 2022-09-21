@@ -40,7 +40,7 @@ export default function WordsMain() {
     >
       <Flex flex={1} safeAreaTop>
         <Pressable flex={0.95} onPress={() => Keyboard.dismiss()}>
-          <CharactersBreakdown flex={0.3} />
+          <CharactersBreakdown flex={0.2} />
 
           <Center flex={0.6}>
             <VStack space={4}>
