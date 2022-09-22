@@ -13,6 +13,7 @@ export default function GameMenu() {
   const { isGameMenuVisible: gameMenuVisible } = useSelector(
     (state: IState) => state.home
   );
+
   const dispatch = useDispatch();
   const navigation = useNavigation();
 

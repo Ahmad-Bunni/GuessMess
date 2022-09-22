@@ -5,7 +5,11 @@ import { IState } from '../../../store/store';
 import { InputEvent } from '../models/Worlds.InputEvent';
 import CharacterItem from './Words.CharacterItem';
 
-export default function CharactersBlock() {
+export default function CharactersBlock({
+  wordBlockIndex,
+}: {
+  wordBlockIndex: number;
+}) {
   const { numberOfFields } = useSelector((state: IState) => state.word);
 
   const fieldsRef = useRef<any>(
@@ -39,7 +43,8 @@ export default function CharactersBlock() {
         return (
           <CharacterItem
             key={index}
-            index={index}
+            wordBlockIndex={wordBlockIndex}
+            characterIndex={index}
             reference={(el: any) => (fieldsRef.current[index] = el)}
             handleChange={handleChange}
           />

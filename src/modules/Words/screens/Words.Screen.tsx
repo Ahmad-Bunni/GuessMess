@@ -42,10 +42,11 @@ export default function WordsMain() {
         <Pressable flex={0.95} onPress={() => Keyboard.dismiss()}>
           <CharactersBreakdown flex={0.2} />
 
-          <Center flex={0.6}>
+          <Center flex={0.7}>
             <VStack space={4}>
-              <CharactersBlock />
-
+              {[...Array(1)].map((_, index) => {
+                return <CharactersBlock key={index} wordBlockIndex={index} />;
+              })}
               <Button
                 bg="lightBlue.600"
                 _pressed={{

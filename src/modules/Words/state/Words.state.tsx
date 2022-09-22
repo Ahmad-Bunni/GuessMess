@@ -1,19 +1,26 @@
-import { ICharacterValue } from '../models/Words.characterInput';
+import { ICharacterValue } from '../models/Words.CharacterInput';
 
 export interface WordState {
-  characters: { [index: number]: ICharacterValue };
+  words: { [index: number]: WordBlockState };
   numberOfFields: number;
   wordComplete: boolean;
+  activeWordIndex: number;
   word: string;
   characterValidationTrigger: boolean;
   charactersValueResetTrigger: boolean;
 }
 
 export const initialState: WordState = {
-  characters: {},
+  words: {},
   wordComplete: false,
   numberOfFields: 0,
+  activeWordIndex: 0,
   charactersValueResetTrigger: false,
   characterValidationTrigger: false,
   word: '',
 };
+
+export interface WordBlockState {
+  isActive: boolean;
+  characters: { [index: number]: ICharacterValue };
+}

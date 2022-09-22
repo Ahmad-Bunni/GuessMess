@@ -1,4 +1,4 @@
-import { CharacterStatus } from './Words.character.status';
+import { CharacterStatus } from './Words.Character.status';
 
 export interface ICharacterValue {
   value: string;
@@ -6,5 +6,6 @@ export interface ICharacterValue {
 }
 
 export interface ICharacterInput extends ICharacterValue {
-  index: number;
+  characterIndex: number;
+  wordBlockIndex: number;
 }

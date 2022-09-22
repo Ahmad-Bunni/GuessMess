@@ -2,24 +2,26 @@ import React, { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { IState } from '../../../store/store';
-import { CharacterStatus } from '../models/Words.character.status';
+import { CharacterStatus } from '../models/Words.Character.status';
 import { InputEvent } from '../models/Worlds.InputEvent';
 import { setCharacterDetails } from '../state/Words.actions';
 
 export default function CharacterItem({
   handleChange,
   reference,
-  index,
+  wordBlockIndex,
+  characterIndex,
 }: {
-  handleChange: (index: any, eventType: InputEvent) => void;
+  handleChange: (characterIndex: any, eventType: InputEvent) => void;
   reference: any;
-  index: number;
+  wordBlockIndex: number;
+  characterIndex: number;
 }) {
   const [value, setValue] = useState('');
   const [status, setStatus] = useState(CharacterStatus.Default);
   const {
     numberOfFields,
-    characters,
+    words,
     characterValidationTrigger,
     charactersValueResetTrigger,
   } = useSelector((state: IState) => state.word);
@@ -30,13 +32,16 @@ export default function CharacterItem({
   }, [numberOfFields, charactersValueResetTrigger]);
 
   React.useEffect(() => {
-    setStatus(characters[index]?.status);
+    if (words[wordBlockIndex].isActive) {
+      setStatus(words[wordBlockIndex].characters[characterIndex]?.status);
+    }
   }, [characterValidationTrigger]);
 
   React.useEffect(() => {
     dispatch(
       setCharacterDetails({
-        index: index,
+        characterIndex: characterIndex,
+        wordBlockIndex: wordBlockIndex,
         value: value,
         status: CharacterStatus.Default,
       })
@@ -46,12 +51,12 @@ export default function CharacterItem({
   const handleOnTextChange = (text: string, key: string) => {
     if (text) {
       setValue(text.toUpperCase());
-      handleChange(index, InputEvent.Add);
+      handleChange(characterIndex, InputEvent.Add);
     } else if (!key) {
       setValue('');
-      handleChange(index, InputEvent.Remove);
+      handleChange(characterIndex, InputEvent.Remove);
     } else if (!value && key === 'Backspace') {
-      handleChange(index, InputEvent.Remove);
+      handleChange(characterIndex, InputEvent.Remove);
     }
   };
 

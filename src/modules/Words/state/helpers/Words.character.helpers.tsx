@@ -1,16 +1,19 @@
-import { CharacterStatus } from '../../models/Words.character.status';
-import { ICharacterInput } from '../../models/Words.characterInput';
+import { CharacterStatus } from '../../models/Words.Character.status';
+import { ICharacterInput } from '../../models/Words.CharacterInput';
 import { WordState } from '../Words.state';
 
 export default function calculateCharacterStatus(
   state: WordState,
   payload: ICharacterInput
 ) {
-  if (!state.characters[payload.index] || !payload.value)
+  if (
+    !state.words[state.activeWordIndex].characters[payload.characterIndex] ||
+    !payload.value
+  )
     return CharacterStatus.Default;
 
   const wordArray = [...state.word];
-  const correctCharacter = wordArray[payload.index];
+  const correctCharacter = wordArray[payload.characterIndex];
   const givenCharacter = payload.value;
 
   if (correctCharacter === givenCharacter) return CharacterStatus.Right;
